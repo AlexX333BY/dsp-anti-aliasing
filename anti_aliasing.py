@@ -5,7 +5,7 @@ def central_moving_average(signals, sample_window_width):
     assert sample_window_width > 0, "Sample window width should be positive"
     assert sample_window_width % 2 == 1, "Sample window width should be odd"
 
-    half_width = sample_window_width / 2
+    half_width = sample_window_width // 2
     signals_count = len(signals)
 
     result = array('d')
@@ -47,7 +47,8 @@ def median_filter(signals, sample_window_width, deleted_elements_count):
     assert deleted_elements_count <= sample_window_width / 2, \
         "Deleted elements count should be not greater than half size of sample window length"
 
-    half_width = sample_window_width / 2
+    half_width = sample_window_width // 2
+    half_elements_left = half_width - deleted_elements_count
     signals_count = len(signals)
 
     result = array('d', signals)
@@ -56,13 +57,13 @@ def median_filter(signals, sample_window_width, deleted_elements_count):
         for i in range(max(signal_pos - half_width, 0), min(signal_pos + half_width + 1, signals_count)):
             window.append(result[i])
         window.sort()
-        start_delete_pos = max(signal_pos - half_width, 0)
-        end_delete_pos = max(signal_pos - half_width + deleted_elements_count - 1, 0)
-        for i in range(end_delete_pos - start_delete_pos + 1):
+        elements_to_the_left = signal_pos
+        how_much_to_delete = max(min(deleted_elements_count, elements_to_the_left - half_elements_left), 0)
+        for i in range(how_much_to_delete):
             window.pop(0)
-        start_delete_pos = min(signal_pos + half_width - deleted_elements_count + 1, signals_count - 1)
-        end_delete_pos = min(signal_pos + half_width, signals_count - 1)
-        for i in range(end_delete_pos - start_delete_pos + 1):
+        elements_to_the_right = signals_count - signal_pos - 1
+        how_much_to_delete = max(min(deleted_elements_count, elements_to_the_right - half_elements_left), 0)
+        for i in range(how_much_to_delete):
             window.pop()
         result[signal_pos] = sum(window) / len(window)
     return result
