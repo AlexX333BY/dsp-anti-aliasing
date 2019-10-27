@@ -13,7 +13,7 @@ class GraphDrawer:
         self.__graph_drawers.append(NamedDrawGraphCallback(lambda axes: axes.plot(graph.ox, graph.oy), graph.name))
 
     def add_stem(self, graph):
-        self.__graph_drawers.append(NamedDrawGraphCallback(lambda axes: axes.stem(graph.ox, graph.oy), graph.name))
+        self.__graph_drawers.append(NamedDrawGraphCallback(lambda axes: axes.stem(graph.ox, graph.oy, markerfmt=''), graph.name))
 
     def draw(self):
         graphs_count = len(self.__graph_drawers)
