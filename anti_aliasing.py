@@ -10,15 +10,12 @@ def central_moving_average(signals, sample_window_width):
 
     result = array('d')
     for signal_pos in range(signals_count):
-        signals_sum = signals[signal_pos]
-        signals_sum_size = 1
-        for signal_pos_offset in range(1, half_width + 1):
-            if signal_pos - signal_pos_offset >= 0:
-                signals_sum += signals[signal_pos - signal_pos_offset]
-                signals_sum_size += 1
-            if signal_pos + signal_pos_offset < signals_count:
-                signals_sum += signals[signal_pos + signal_pos_offset]
-                signals_sum_size += 1
+        signals_sum = 0.0
+        signals_sum_size = 0
+        for offseted_signal_pos \
+                in range(max(signal_pos - half_width, 0), min(signal_pos + half_width + 1, signals_count)):
+            signals_sum += signals[offseted_signal_pos]
+            signals_sum_size += 1
         result.append(signals_sum / signals_sum_size)
 
     return result
