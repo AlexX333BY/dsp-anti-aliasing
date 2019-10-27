@@ -67,7 +67,7 @@ def main():
     drawer = graphs.GraphDrawer()
     drawer.add_plot(graphs.Graph(range(len(signals)), signals, 'Original signals'))
     drawer.add_stem(graphs.Graph(range(len(amplitude_spectrum_before)), amplitude_spectrum_before,
-                                 'Original signals spectrum'))
+                                 'Original signals amplitude spectrum'))
     drawer.add_plot(graphs.Graph(range(len(anti_aliased_signals)), anti_aliased_signals, 'Anti-aliased signals'))
     drawer.add_stem(graphs.Graph(range(len(amplitude_spectrum_after)), amplitude_spectrum_after,
                                  'Anti-aliased signals amplitude spectrum'))
